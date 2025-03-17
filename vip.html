@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP -  بازی</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/4741/4741163.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle, #0d1b2a 10%, #051622 90%);
+            color: white;
+            text-align: right; /* متن‌ها به راست چین شوند */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            direction: rtl; /* تغییر جهت نوشتار به راست به چپ */
+        }
+
+        /* افکت پس‌زمینه متحرک */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://sexworld3d.com/themes/sexworld3d/assets/images/video-placeholder.jpg') center/cover no-repeat;
+            filter: blur(5px) brightness(0.3);
+            z-index: -1;
+        }
+
+        /* استایل کلی با افکت شیشه‌ای */
+        .vip-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+            animation: fadeInUp 1s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* انیمیشن ورود */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* عنوان */
+        h1 {
+            font-size: 2.5rem;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff;
+            animation: glow 1.5s infinite alternate;
+            text-align: center;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff; }
+            to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ccff; }
+        }
+
+        /* دکمه‌ها */
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ccff, #0099ff);
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+            margin: 10px;
+            letter-spacing: 1px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #0099ff, #0066ff);
+            box-shadow: 0 0 20px rgba(0, 204, 255, 1);
+            transform: scale(1.05);
+        }
+
+        /* افکت لودینگ */
+        .loading, .retry-btn, .start-game-btn, .error {
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .loading p {
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+
+        .progress {
+            width: 0;
+            height: 15px;
+            background: linear-gradient(90deg, #00a2ff, #00a2ff);
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00a2ff;
+            transition: width 1s ease-in-out;
+        }
+
+        /* افکت خطا */
+        .error {
+            color: #ff4d4d;
+            font-size: 1rem;
+            margin-top: 20px;
+            text-shadow: 0 0 5px #ff4d4d;
+            text-align: right; /* پیام خطا به راست چین شود */
+        }
+
+        /* دکمه شروع بازی */
+        .start-game-btn {
+            display: none;
+            margin-top: 30px;
+            background: linear-gradient(45deg, #ffcc00, #ff9900);
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .start-game-btn:hover {
+            background: linear-gradient(45deg, #ff9900, #ff6600);
+            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.7);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* افکت پارتیکل برای حس گیمینگ */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        #start-game-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #channels-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="vip-container">
+        <h1>عضویت VIP</h1>
+        <p>برای دسترسی به بازی‌، لطفاً کانال‌های زیر را دنبال کنید:</p>
+        
+        <div id="channels-container">
+            <a id="channel1-link" href="https://t.me/zed_exe" target="_blank">
+                <button class="btn" onclick="markChannelAsFollowed('channel1')">دنبال کردن کانال ZED_EXE</button>
+            </a>
+            <a id="channel2-link" href="https://t.me/aqay_ghost" target="_blank">
+                <button class="btn" onclick="markChannelAsFollowed('channel2')">دنبال کردن کانال AQAY_GHOST</button>
+            </a>
+            <a id="channel3-link" href="https://t.me/jaq_magh" target="_blank">
+                <button class="btn" onclick="markChannelAsFollowed('channel3')">دنبال کردن کانال JAQ_MAGH</button>
+            </a>
+        </div>
+
+        <p id="warning-message" class="warning-message" style="display: none;">لطفاً کانال‌ها را دنبال کنید تا دکمه شروع بازی فعال شود.</p>
+
+        <div id="start-game-container" style="display: none;">
+            <button id="start-game-btn" class="btn" onclick="startDownload()">شروع بازی</button>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <p>در حال دانلود دیتای بازی...</p>
+            <div class="progress" id="progress"></div>
+            <p id="status"></p>
+        </div>
+
+        <div class="retry-btn" id="retry-btn" style="display: none;">
+            <button class="btn" onclick="retryDownload()">تلاش مجدد</button>
+        </div>
+
+        <div class="retry-btn" id="restart-btn" style="display: none;">
+            <button class="btn" onclick="restartDownload()">بارگیری از سر</button>
+        </div>
+
+        <div class="error" id="error"></div>
+    </div>
+</body>
+
+    <script>
+        let progress = 0;
+        let downloadInterval;
+        let isDownloading = false;
+        let downloadStep = 1; // Step for download progress
+        let timeoutAt = [23, 33, 42, 91]; // Points where timeout happens
+        let channelsFollowed = {
+            channel1: false,
+            channel2: false,
+            channel3: false
+        };
+
+        function markChannelAsFollowed(channel) {
+            channelsFollowed[channel] = true;
+            checkIfAllChannelsFollowed();
+        }
+
+        function checkIfAllChannelsFollowed() {
+            if (channelsFollowed.channel1 && channelsFollowed.channel2 && channelsFollowed.channel3) {
+                document.getElementById('start-game-container').style.display = 'block'; // نمایش دکمه "شروع بازی"
+                document.getElementById('warning-message').style.display = 'none'; // مخفی کردن پیام هشدار
+
+                // مخفی کردن دکمه‌های کانال
+                document.getElementById('channels-container').style.display = 'none';
+            } else {
+                document.getElementById('start-game-container').style.display = 'none'; // مخفی ماندن دکمه "شروع بازی"
+                document.getElementById('warning-message').style.display = 'block'; // نمایش پیام هشدار
+            }
+        }
+
+
+
+
+        function startDownload() {
+            if (isDownloading) return;
+
+            document.getElementById('error').innerHTML = '';
+            document.getElementById('retry-btn').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('status').innerHTML = 'در حال شروع دانلود...';
+
+            isDownloading = true;
+            progress = 0;
+            downloadStep = 1; // Reset download step
+
+            // Hide the start game button after click
+            document.getElementById('start-game-btn').style.display = 'none';
+
+            downloadInterval = setInterval(updateProgress, 1000);
+        }
+
+        function updateProgress() {
+            progress += downloadStep;
+
+            if (timeoutAt.includes(progress)) {
+                // Simulate timeout with a specific error message
+                showError(getTimeoutMessage(progress));
+                return;
+            }
+
+            if (progress >= 100) {
+                clearInterval(downloadInterval);
+                document.getElementById('status').innerHTML = 'دانلود تمام شد!';
+            } else {
+                document.getElementById('progress').style.width = progress + '%';
+                document.getElementById('status').innerHTML = `در حال دانلود... ${progress}%`;
+            }
+        }
+
+        function showError(message, isRestart = false) {
+    clearInterval(downloadInterval);
+    document.getElementById('status').innerHTML = 'خطا در دانلود!';
+    document.getElementById('error').innerHTML = message;
+
+    if (isRestart) {
+        document.getElementById('retry-btn').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'block';
+    } else {
+        document.getElementById('retry-btn').style.display = 'block';
+    }
+    isDownloading = false;
+}
+
+function updateProgress() {
+    progress += downloadStep;
+
+    if (timeoutAt.includes(progress)) {
+        if (progress === 91) {
+            showError("دانلود ناقص بوده، لطفاً دوباره بارگیری کنید.", true);
+        } else {
+            showError(getTimeoutMessage(progress));
+        }
+        return;
+    }
+
+    if (progress >= 100) {
+        clearInterval(downloadInterval);
+        document.getElementById('status').innerHTML = 'دانلود تمام شد!';
+    } else {
+        document.getElementById('progress').style.width = progress + '%';
+        document.getElementById('status').innerHTML = `در حال دانلود... ${progress}%`;
+    }
+}
+
+function restartDownload() {
+    // ریست کردن دانلود از ابتدا
+    document.getElementById('error').innerHTML = '';
+    document.getElementById('restart-btn').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('status').innerHTML = 'در حال شروع مجدد دانلود...';
+
+    isDownloading = true;
+    progress = 0; // از 0 شروع شود
+    downloadInterval = setInterval(updateProgress, 1000);
+}
+
+
+        function getTimeoutMessage(progress) {
+            switch (progress) {
+                case 23:
+                    return "اینترنت شما ضعیف است، لطفاً اتصال خود را بررسی کنید.";
+                case 33:
+                    return "اتصال شما قطع شده است، لطفاً دوباره تلاش کنید.";
+                case 42:
+                    return "سرعت دانلود کم است، لطفاً صبر کنید.";
+                case 91:
+                    return "خطای شدید در اتصال، لطفاً دوباره از ابتدا شروع کنید.";
+                default:
+                    return "مشکلی در دانلود پیش آمده است.";
+            }
+        }
+
+        function retryDownload() {
+            // Restart the download from the current point
+            document.getElementById('error').innerHTML = '';
+            document.getElementById('retry-btn').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('status').innerHTML = `در حال ادامه دانلود از نقطه ${progress}%...`;
+
+            isDownloading = true;
+            downloadInterval = setInterval(updateProgress, 1000);
+        }
+    </script>
+</body>
+</html>

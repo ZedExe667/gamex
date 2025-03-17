@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجموعه بازی‌های فلش</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/4648/4648573.png">
+    <script src="https://unpkg.com/@ruffle-rs/ruffle@latest"></script>
+    <style>
+        /* فونت و جهت‌گیری */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle, #0d1b2a 10%, #051622 90%);
+            color: white;
+            text-align: center;
+            direction: rtl; /* راست به چپ */
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* افکت پس‌زمینه متحرک */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.hollywoodreporter.com/wp-content/uploads/2024/12/Squidgame_Unit2.jpg?w=1296&h=730&crop=1') center/cover no-repeat;
+            filter: blur(5px) brightness(0.3);
+            z-index: -1;
+        }
+
+        /* استایل کلی با افکت شیشه‌ای */
+        .vip-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            max-width: 600px;
+            margin: 50px auto;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        /* انیمیشن ورود */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* عنوان */
+        h1 {
+            font-size: 2.5rem;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff; }
+            to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ccff; }
+        }
+
+        /* دکمه‌ها */
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00ccff, #0099ff);
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+            margin: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #0099ff, #0066ff);
+            box-shadow: 0 0 20px rgba(0, 204, 255, 1);
+            transform: scale(1.05);
+        }
+
+        /* شبکه بازی‌ها */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        
+        /* جعبه بازی‌ها */
+        .game-box {
+            background: #444;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .game-box:hover {
+            background: #666;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        /* دکمه VIP */
+        .vip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: gold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: black;
+        }
+
+        .vip-button:hover {
+            background: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="vip-button" onclick="location.href='vip.html'">بازی VIP</div>
+    <h1>مجموعه بازی‌های فلش</h1>
+    <div class="game-grid" id="gameGrid">
+        <!-- بازی‌ها به طور دینامیک در اینجا اضافه خواهند شد -->
+    </div>
+
+    <script>
+        const gameGrid = document.getElementById('gameGrid');
+        
+        // ایجاد بازی‌ها از game1 تا game7 و قرار دادن آنها در پوشه 'game'
+        for (let i = 1; i <= 7; i++) {
+            const gameBox = document.createElement('div');
+            gameBox.classList.add('game-box');
+            gameBox.textContent = `بازی ${i}`;
+            gameBox.onclick = function() {
+                location.href = `game/game${i}.swf`;  // تغییر مسیر به پوشه 'game'
+            };
+            gameGrid.appendChild(gameBox);
+        }
+    </script>
+</body>
+</html>
