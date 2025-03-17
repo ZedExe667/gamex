@@ -13,79 +13,17 @@
             background: radial-gradient(circle, #0d1b2a 10%, #051622 90%);
             color: white;
             text-align: center;
-            direction: rtl; /* راست به چپ */
+            direction: rtl;
             margin: 0;
             padding: 0;
-            overflow: hidden;
         }
 
-        /* افکت پس‌زمینه متحرک */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.hollywoodreporter.com/wp-content/uploads/2024/12/Squidgame_Unit2.jpg?w=1296&h=730&crop=1') center/cover no-repeat;
-            filter: blur(5px) brightness(0.3);
-            z-index: -1;
-        }
-
-        /* استایل کلی با افکت شیشه‌ای */
-        .vip-container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            max-width: 600px;
-            margin: 50px auto;
-            animation: fadeInUp 1s ease-in-out;
-        }
-
-        /* انیمیشن ورود */
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* عنوان */
         h1 {
             font-size: 2.5rem;
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff;
-            animation: glow 1.5s infinite alternate;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #00ffff, 0 0 30px #00ccff; }
-            to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ccff; }
-        }
-
-        /* دکمه‌ها */
-        .btn {
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #00ccff, #0099ff);
-            border-radius: 50px;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
-            margin: 10px;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            background: linear-gradient(45deg, #0099ff, #0066ff);
-            box-shadow: 0 0 20px rgba(0, 204, 255, 1);
-            transform: scale(1.05);
-        }
-
-        /* شبکه بازی‌ها */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -93,24 +31,7 @@
             max-width: 600px;
             margin: 50px auto;
         }
-/* دکمه VIP */
-.vip-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: gold;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    color: black;
-}
 
-.vip-button:hover {
-    background: orange;
-}
-
-        /* جعبه بازی‌ها */
         .game-box {
             background: #444;
             padding: 20px;
@@ -126,93 +47,136 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
 
-        /* مدال */
+        /* دکمه VIP */
+        .vip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: gold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: black;
+            font-size: 1.2rem;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .vip-button:hover {
+            background: orange;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 1);
+        }
+
+        /* استایل مدال */
         .modal {
-            display: none; /* ابتدا مخفی است */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
         }
 
         .modal-content {
-            background-color: #333;
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 800px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+            animation: fadeInUp 0.5s ease-in-out;
         }
 
+        /* انیمیشن مدال */
+        @keyframes fadeInUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal embed {
+            border-radius: 10px;
+            width: 800px;
+            height: 600px;
+        }
+
+        /* دکمه بستن (بزرگ و واضح) */
         .close-btn {
-            background-color: red;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: red;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 15px 30px;
+            border-radius: 30px;
             cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transition: 0.3s;
         }
 
         .close-btn:hover {
-            background-color: darkred;
+            background: darkred;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 1);
+            transform: scale(1.1) translateX(-50%);
         }
+
     </style>
 </head>
 <body>
     <div class="vip-button" onclick="location.href='vip.html'">بازی VIP</div>
     <h1>مجموعه بازی‌های فلش</h1>
-    <div class="game-grid" id="gameGrid">
-        <!-- بازی‌ها به طور دینامیک در اینجا اضافه خواهند شد -->
-    </div>
-    <div class="vip-button" onclick="location.href='vip.html'">بازی VIP</div>
+    <div class="game-grid" id="gameGrid"></div>
 
     <!-- مدال برای نمایش بازی -->
-    <div id="gameModal" class="modal">
+    <div class="modal" id="gameModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeModal">بستن</button>
-            <embed id="gameEmbed" width="800" height="600" allowfullscreen="true">
+            <button class="close-btn" onclick="closeModal()">✖ بستن</button>
+            <div id="gameContainer"></div>
         </div>
     </div>
 
     <script>
         const gameGrid = document.getElementById('gameGrid');
+        const gameContainer = document.getElementById('gameContainer');
         const gameModal = document.getElementById('gameModal');
-        const gameEmbed = document.getElementById('gameEmbed');
-        const closeModal = document.getElementById('closeModal');
 
-        // ایجاد بازی‌ها از game1 تا game7 و قرار دادن آنها در پوشه 'game'
         for (let i = 1; i <= 7; i++) {
             const gameBox = document.createElement('div');
             gameBox.classList.add('game-box');
             gameBox.textContent = `بازی ${i}`;
             gameBox.onclick = function() {
-                // نمایش مدال و بارگذاری بازی
-                gameEmbed.src = `game/game${i}.swf`;
-                gameModal.style.display = 'flex';
+                gameContainer.innerHTML = `
+                    <embed 
+                        src="game/game${i}.swf" 
+                        width="800" 
+                        height="600" 
+                        allowfullscreen="true"
+                    >
+                `;
+                gameModal.classList.add("show");
             };
             gameGrid.appendChild(gameBox);
         }
 
-        // بستن مدال
-        closeModal.onclick = function() {
-            gameModal.style.display = 'none';
-            gameEmbed.src = ''; // توقف بازی
-        };
-
-        // بستن مدال وقتی خارج از آن کلیک شود
-        window.onclick = function(event) {
-            if (event.target === gameModal) {
-                gameModal.style.display = 'none';
-                gameEmbed.src = ''; // توقف بازی
-            }
-        };
+        function closeModal() {
+            gameModal.classList.remove("show");
+            setTimeout(() => { gameContainer.innerHTML = ""; }, 300); // پاک کردن بازی با تأخیر
+        }
     </script>
 </body>
 </html>
