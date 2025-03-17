@@ -93,7 +93,23 @@
             max-width: 600px;
             margin: 50px auto;
         }
-        
+/* دکمه VIP */
+.vip-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: gold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+}
+
+.vip-button:hover {
+    background: orange;
+}
+
         /* جعبه بازی‌ها */
         .game-box {
             background: #444;
@@ -110,21 +126,42 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
 
-        /* دکمه VIP */
-        .vip-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: gold;
+        /* مدال */
+        .modal {
+            display: none; /* ابتدا مخفی است */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .close-btn {
+            background-color: red;
+            color: white;
+            border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            color: black;
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
 
-        .vip-button:hover {
-            background: orange;
+        .close-btn:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -134,20 +171,48 @@
     <div class="game-grid" id="gameGrid">
         <!-- بازی‌ها به طور دینامیک در اینجا اضافه خواهند شد -->
     </div>
+    <div class="vip-button" onclick="location.href='vip.html'">بازی VIP</div>
+
+    <!-- مدال برای نمایش بازی -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">بستن</button>
+            <embed id="gameEmbed" width="800" height="600" allowfullscreen="true">
+        </div>
+    </div>
 
     <script>
         const gameGrid = document.getElementById('gameGrid');
-        
+        const gameModal = document.getElementById('gameModal');
+        const gameEmbed = document.getElementById('gameEmbed');
+        const closeModal = document.getElementById('closeModal');
+
         // ایجاد بازی‌ها از game1 تا game7 و قرار دادن آنها در پوشه 'game'
         for (let i = 1; i <= 7; i++) {
             const gameBox = document.createElement('div');
             gameBox.classList.add('game-box');
             gameBox.textContent = `بازی ${i}`;
             gameBox.onclick = function() {
-                location.href = `game/game${i}.swf`;  // تغییر مسیر به پوشه 'game'
+                // نمایش مدال و بارگذاری بازی
+                gameEmbed.src = `game/game${i}.swf`;
+                gameModal.style.display = 'flex';
             };
             gameGrid.appendChild(gameBox);
         }
+
+        // بستن مدال
+        closeModal.onclick = function() {
+            gameModal.style.display = 'none';
+            gameEmbed.src = ''; // توقف بازی
+        };
+
+        // بستن مدال وقتی خارج از آن کلیک شود
+        window.onclick = function(event) {
+            if (event.target === gameModal) {
+                gameModal.style.display = 'none';
+                gameEmbed.src = ''; // توقف بازی
+            }
+        };
     </script>
 </body>
 </html>
